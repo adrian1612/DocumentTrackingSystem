@@ -48,10 +48,12 @@ namespace DocumentTrackingSystem.Models
         public String gender { get; set; }
 
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         [Required]
         public String email { get; set; }
 
         [Display(Name = "Address")]
+        [DataType(DataType.MultilineText)]
         [Required]
         public String address { get; set; }
 
@@ -154,6 +156,24 @@ namespace DocumentTrackingSystem.Models
             });
             return result;
         }
+
+        public void UpdateProfile(tbl_User obj)
+        {
+            s.Query("tbl_User_Proc", p =>
+            {
+                p.Add("@Type", "UpdateProfile");
+                p.Add("@ID", obj.ID);
+                p.Add("@Username", obj.Username);
+                p.Add("@Password", obj.Password);
+                p.Add("@fname", obj.fname);
+                p.Add("@mn", obj.mn);
+                p.Add("@lname", obj.lname);
+                p.Add("@gender", obj.gender);
+                p.Add("@email", obj.email);
+                p.Add("@address", obj.address);
+            }, CommandType.StoredProcedure);
+        }
+
         public void Delete(tbl_User obj)
         {
             s.Query("DELETE FROM [tbl_User] WHERE ID = @ID", p =>

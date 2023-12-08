@@ -61,6 +61,27 @@ namespace DocumentTrackingSystem.Models
             return View(m);
         }
 
+        public ActionResult UpdateProfile(string cb = null)
+        {
+            if (!string.IsNullOrEmpty(cb))
+            {
+                ViewBag.Message = cb;
+            }
+            var item = mod.Find(UserSession.User.ID);
+            return View(item);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProfile(tbl_User m)
+        {
+            if (ModelState.IsValid)
+            {
+                mod.UpdateProfile(m);
+                return RedirectToAction("UpdateProfile", new { cb = "All changes has been saved." });
+            }
+            return View(m);
+        }
+
         public ActionResult Detail(int ID)
         {
             var item = mod.Find(ID);

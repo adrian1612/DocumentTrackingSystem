@@ -1,0 +1,106 @@
+@using DocumentTrackingSystem.Models
+@model tbl_User
+@{
+    ViewBag.Title = "Update Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>Update Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+            <li class="breadcrumb-item active">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row g-2">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">@ViewBag.Title</div>
+                @using (Html.BeginForm())
+                {
+                    <div class="row mb-2 g-2">
+                        @Html.HiddenFor(model => model.ID)
+                        <div class="col-md-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @if (ViewBag.Message != null)
+                            {
+		                        <p class="text-danger">@ViewBag.Message</p>
+                            }
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.Username, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control form-control-sm", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.Password, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.fname, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.fname, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.fname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.mn, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.mn, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.mn, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.lname, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.lname, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.lname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.gender, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(model => model.gender, Tools.Gender, new { @class = "form-select form-select-sm" })
+                                    @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.email, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                @Html.LabelFor(model => model.address, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -860,7 +860,8 @@
     <Content Include="Views\User\Field.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\Registration.cshtml" />
+    <Content Include="Views\User\UpdateProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
