@@ -52,7 +52,6 @@ namespace DocumentTrackingSystem.Controllers
         [AllowAnonymous]
         public ActionResult Registration()
         {
-          
             return View();
         }
 
@@ -62,9 +61,19 @@ namespace DocumentTrackingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                if (mod.Create(m))
+                {
+                    return RedirectToAction("Login", new { cb = "You are now successfully registered" });
+                }
+                ModelState.AddModelError("", "Username already exist.");
             }
-            return View();
+            return View(m);
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return Redirect("/");
         }
 
         //public ActionResult Print(int ID)

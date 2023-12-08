@@ -11,8 +11,14 @@
     <p class="text-center small">Enter your username & password to login</p>
 </div>
 
-<form class="row g-3 needs-validation" novalidate>
-
+<form action="@Url.Action("Login", "Home")" method="post" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-12">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (ViewBag.Message != null)
+        {
+            <p class="text-success">@ViewBag.Message</p>
+        }
+    </div>
     <div class="col-12">
         <label for="yourUsername" class="form-label">Username</label>
         <input type="text" name="username" class="form-control" id="yourUsername" required>

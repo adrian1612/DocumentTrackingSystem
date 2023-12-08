@@ -41,6 +41,8 @@ namespace DocumentTrackingSystem.Models
         [Required]
         public String lname { get; set; }
 
+        public string Fullname { get { return $"{fname} {mn} {lname}"; } }
+
         [Display(Name = "Gender")]
         [Required]
         public String gender { get; set; }
@@ -163,7 +165,12 @@ namespace DocumentTrackingSystem.Models
 
     public enum Role
     {
-        Super_Admin = 1, Admin = 2
+        [Display(Name = "Super Admin")]
+        Super_Admin = 1,
+        [Display(Name = "Admin")]
+        Admin = 2,
+        [Display(Name = "User")]
+        User = 3
     }
 
 }

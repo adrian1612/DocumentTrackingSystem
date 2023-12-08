@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentTrackingSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,14 +18,28 @@ namespace DocumentTrackingSystem
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             bool authorize = false;
-            foreach (var role in allowedroles)
+            if (allowedroles.Count() >= 1)
             {
-                //var user = new UserSessions();
-                //if (user.Level.ToString() == role || role == user.User.User)
-                //{
-                //    authorize = true;
-                //}
+                foreach (var role in allowedroles)
+                {
+                    if (UserSession.User.Role.ToString() == role || role == UserSession.User.Username)
+                    {
+                        authorize = true;
+                    }
+                }
             }
+            else
+            {
+                if (UserSession.User != null)
+                {
+                    authorize = true;
+                }
+                else
+                {
+                    httpContext.Response.Redirect("/");
+                }
+            }
+            
             return authorize;
         }
 
@@ -50,7 +65,7 @@ namespace DocumentTrackingSystem
     {
         //Change model according to structure, make sure the model has Role or filtering properties
         /*tbl_user*/
-        object session { get { return HttpContext.Current.Session["user"] as /*tbl_user*/ object; } }
+        tbl_User session { get { return HttpContext.Current.Session["User"] as tbl_User; } }
 
         //1) Add properties to filter
         public string Add { get; set; } = "";
@@ -69,7 +84,7 @@ namespace DocumentTrackingSystem
             list.Add(new ObjectProp(obj.Delete, "[aria-action='Delete']"));
 
             //Do not touch this!
-            var items = (from r in list where !(string.IsNullOrEmpty(r.Prop) && obj.DisplayNullProperties) && !r.RoleExist(/*session.Role*/ 1) select r).ToList();
+            var items = (from r in list where !(string.IsNullOrEmpty(r.Prop) && obj.DisplayNullProperties) && !r.RoleExist(session.Role) select r).ToList();
             items.ForEach(r =>
             {
                 output += $"{r.Html},";
