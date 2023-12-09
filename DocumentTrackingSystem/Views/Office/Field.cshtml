@@ -1,0 +1,24 @@
+@model DocumentTrackingSystem.Models.tbl_Office
+@{
+
+}
+<div class="col-md-12">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    <div class="row mb-3">
+        @Html.LabelFor(model => model.Office, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Office, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+            @Html.ValidationMessageFor(model => model.Office, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row mb-3">
+        @Html.LabelFor(model => model.ContactNo, new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+            @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>

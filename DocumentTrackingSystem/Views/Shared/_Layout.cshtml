@@ -223,7 +223,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="@Url.Action("Index", "Home", new { area = "" })">
-                    <i class="bi bi-grid"></i>
+                    <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -240,6 +240,28 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-heading">Libraries</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("Index", "Categories", new { area = "" })">
+                    <i class="bi bi-files"></i>
+                    <span>Document Types</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("Index", "Office", new { area = "" })">
+                    <i class="bi bi-files"></i>
+                    <span>Offices</span>
+                </a>
+            </li>
+
+            <li class="nav-heading">Transaction</li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("Index", "Document", new { area = "" })">
+                    <i class="bi bi-archive"></i>
+                    <span>Received Documents</span>
+                </a>
+            </li>
 
             <li class="nav-heading">Pages</li>
 
@@ -248,7 +270,7 @@
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li>
 
         </ul>
 

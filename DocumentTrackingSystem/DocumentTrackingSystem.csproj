@@ -158,7 +158,10 @@
     <Compile Include="Classes\Authorized.cs" />
     <Compile Include="Classes\dbcontrol.cs" />
     <Compile Include="Classes\MasterControl.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OfficeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -170,6 +173,9 @@
     <Compile Include="init.aspx.designer.cs">
       <DependentUpon>init.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbl_Categories.cs" />
+    <Compile Include="Models\tbl_Document.cs" />
+    <Compile Include="Models\tbl_Office.cs" />
     <Compile Include="Models\tbl_User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -862,6 +868,18 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Registration.cshtml" />
     <Content Include="Views\User\UpdateProfile.cshtml" />
+    <Content Include="Views\Office\Create.cshtml" />
+    <Content Include="Views\Office\Edit.cshtml" />
+    <Content Include="Views\Office\Field.cshtml" />
+    <Content Include="Views\Office\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Field.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Document\Create.cshtml" />
+    <Content Include="Views\Document\Edit.cshtml" />
+    <Content Include="Views\Document\Field.cshtml" />
+    <Content Include="Views\Document\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

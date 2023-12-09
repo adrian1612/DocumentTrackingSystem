@@ -1,11 +1,69 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 08/12/2023 8:36:43 pm ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 09/12/2023 1:56:37 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 08/12/2023 8:36:44 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 09/12/2023 1:56:37 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[tbl_Document_Proc]
+@Type VARCHAR(50),
+@Search VARCHAR(max) = null,
+@ID int = null,
+@Path varchar(max) = null,
+@Filename varchar(max) = null,
+@QRCode varchar(500) = null,
+@ReceivedFrom varchar(max) = null,
+@Office int = null,
+@Category int = null,
+@Description varchar(max) = null,
+@Encoder int = null,
+@Date datetime = null,
+@Timestamp datetime = null
+AS
+BEGIN
+IF @Type = 'Create'
+BEGIN
+	INSERT INTO [tbl_Document]
+	([Path],[Filename],[QRCode],[ReceivedFrom],[Office],[Category],[Description],[Encoder],[Date])
+	VALUES
+	(@Path,@Filename,@QRCode,@ReceivedFrom,@Office,@Category,@Description,@Encoder,@Date)
+
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Update'
+BEGIN
+	UPDATE [tbl_Document] SET [Path] = @Path
+	,[Filename] = @Filename
+	,[QRCode] = @QRCode
+	,[ReceivedFrom] = @ReceivedFrom
+	,[Office] = @Office
+	,[Category] = @Category
+	,[Description] = @Description
+	,[Encoder] = @Encoder
+	,[Date] = @Date WHERE [ID] = @ID
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Search'
+BEGIN
+	SELECT * FROM [tbl_Document] 
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Find'
+BEGIN
+	SELECT * FROM [tbl_Document] WHERE  ID = @ID
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 09/12/2023 1:56:37 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -66,6 +124,17 @@ BEGIN
 	
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'UpdateProfile'
+BEGIN
+	UPDATE [tbl_User] SET [Password] = @Password
+		,[fname] = @fname
+		,[mn] = @mn
+		,[lname] = @lname
+		,[gender] = @gender
+		,[email] = @email
+		,[address] = @address WHERE [ID] = @ID
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Search'
 BEGIN
 	SELECT * FROM [tbl_User] 
@@ -78,13 +147,13 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Login'
 BEGIN
-	SELECT * FROM [tbl_User] WHERE HASHBYTES('MD5', Username) = HASHBYTES('MD5', @Username) AND HASHBYTES('MD5', [Password]) = HASHBYTES('MD5', @Password) 
+	SELECT * FROM [tbl_User] WHERE HASHBYTES('MD5', Username) = HASHBYTES('MD5', @Username) AND HASHBYTES('MD5', [Password]) = HASHBYTES('MD5', @Password) AND Active = 1
 END
 END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 08/12/2023 8:36:44 pm ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 09/12/2023 1:56:37 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -104,7 +173,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 08/12/2023 8:36:44 pm ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 09/12/2023 1:56:37 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -132,7 +201,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 08/12/2023 8:36:44 pm ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 09/12/2023 1:56:37 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +222,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 08/12/2023 8:36:44 pm ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 09/12/2023 1:56:37 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

@@ -1,0 +1,45 @@
+@using DocumentTrackingSystem.Models
+@model tbl_Categories
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>Document Types</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Categories")">Document Types</a></li>
+            <li class="breadcrumb-item active">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row g-2">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">@ViewBag.Title</div>
+                @using (Html.BeginForm())
+                {
+                    <div class="row mb-2 g-2">
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.Partial("Field")
+                        <div class="col-md-12">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                        </div>
+                    </div>
+                }
+                <div>
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

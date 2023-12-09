@@ -20,6 +20,7 @@ namespace DocumentTrackingSystem.Models
         public String Username { get; set; }
 
         [Display(Name = "Password")]
+        [DataType(DataType.Password)]
         [MinLength(6, ErrorMessage = "Atleast minimum of 6 character.")]
         [Required]
         public String Password { get; set; }
@@ -28,7 +29,7 @@ namespace DocumentTrackingSystem.Models
         public Role Role { get; set; }
 
         [Display(Name = "Active")]
-        public Boolean? Active { get; set; }
+        public Boolean Active { get; set; }
 
         [Display(Name = "Given name")]
         [Required]
