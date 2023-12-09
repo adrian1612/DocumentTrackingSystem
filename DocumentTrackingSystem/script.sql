@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 09/12/2023 8:03:47 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -44,26 +44,33 @@ BEGIN
 	,[Office] = @Office
 	,[Category] = @Category
 	,[Description] = @Description
-	,[Encoder] = @Encoder
 	,[Date] = @Date WHERE [ID] = @ID
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Search'
 BEGIN
-	SELECT * FROM [tbl_Document] 
+	SELECT * FROM [vw_Document] 
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'SearchFromReceived'
+BEGIN
+	SELECT * FROM [vw_Document] WHERE ReceivedFrom LIKE CONCAT('%', @Search, '%')
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Find'
 BEGIN
-	SELECT * FROM [tbl_Document] WHERE  ID = @ID
+	SELECT * FROM [vw_Document] WHERE  ID = @ID
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+IF @Type = 'ReceivedFromList'
+BEGIN
+	SELECT ReceivedFrom FROM [vw_Document] WHERE ReceivedFrom LIKE CONCAT('%',@Search, '%') GROUP BY ReceivedFrom
+END
 END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +160,7 @@ END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,7 +180,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +208,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -222,7 +229,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 09/12/2023 1:56:37 pm ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -250,6 +257,42 @@ PRIMARY KEY CLUSTERED
 
 GO
 SET ANSI_PADDING OFF
+GO
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 09/12/2023 8:03:48 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vw_Categories]
+AS
+SELECT [ID]
+      ,[Category]
+	  ,Total = (SELECT COUNT(*) FROM tbl_Document WHERE Category = c.ID)
+      ,[Timestamp]
+  FROM [tbl_Categories] c
+GO
+/****** Object:  View [dbo].[vw_Document]    Script Date: 09/12/2023 8:03:48 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vw_Document]
+AS
+SELECT [ID]
+      ,[Path]
+      ,[Filename]
+      ,[QRCode]
+      ,[ReceivedFrom]
+      ,[Office]
+	  ,OfficeName = (SELECT Office FROM tbl_Office WHERE ID = d.Office)
+      ,[Category]
+	  ,CategoryName = (SELECT Category FROM tbl_Categories WHERE ID = d.Category)
+      ,[Description]
+      ,[Encoder]
+	  ,EncoderName = (SELECT CONCAT(fname, ' ', mn, ' ', lname) FROM tbl_User WHERE ID = d.Encoder)
+      ,[Date]
+      ,[Timestamp]
+  FROM [tbl_Document] d
 GO
 ALTER TABLE [dbo].[tbl_Categories] ADD  DEFAULT (getdate()) FOR [Timestamp]
 GO

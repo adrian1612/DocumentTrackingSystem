@@ -20,6 +20,8 @@ namespace DocumentTrackingSystem.Models
         [Required]
         public String Category { get; set; }
 
+        public int Total { get; set; }
+
         [Display(Name = "Timestamp")]
         [ScaffoldColumn(false)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -37,7 +39,7 @@ namespace DocumentTrackingSystem.Models
         public List<tbl_Categories> List()
         {
 
-            return s.Query<tbl_Categories>("SELECT * FROM [tbl_Categories]")
+            return s.Query<tbl_Categories>("SELECT * FROM [vw_Categories]")
             .Select(r =>
             {
 
@@ -48,7 +50,7 @@ namespace DocumentTrackingSystem.Models
         public tbl_Categories Find(int ID)
         {
 
-            return s.Query<tbl_Categories>("SELECT * FROM tbl_Categories where ID = @ID", p => p.Add("@ID", ID))
+            return s.Query<tbl_Categories>("SELECT * FROM [vw_Categories] where ID = @ID", p => p.Add("@ID", ID))
             .Select(r =>
             {
 

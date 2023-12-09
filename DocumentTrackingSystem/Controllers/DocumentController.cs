@@ -16,6 +16,14 @@ namespace DocumentTrackingSystem.Models
             return View(list);
         }
 
+        [ActionName("Search")]
+        public ActionResult SearchFromReceived(string query)
+        {
+            var list = mod.List(search: query);
+            ViewBag.Keyword = query;
+            return View(list);
+        }
+
         public ActionResult Action(string Type, int? ID = null)
         {
             switch (Type)
@@ -26,6 +34,11 @@ namespace DocumentTrackingSystem.Models
                     return RedirectToAction("Edit", new { ID = ID });
             }
             return View();
+        }
+
+        public ActionResult ReceivedFrom(string Term)
+        {
+            return Json(mod.ReceivedFromList(Term), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()

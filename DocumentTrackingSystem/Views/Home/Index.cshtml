@@ -1,6 +1,8 @@
 ﻿@using DocumentTrackingSystem.Models
 @{
     ViewBag.Title = "Dashboard";
+    var DocCategories = new tbl_Categories().List();
+    var Offices = new tbl_Office().List();
 }
 
 <div class="pagetitle">
@@ -45,5 +47,78 @@
 
             </div>
         </div>
+        @foreach (var item in DocCategories)
+        {
+            <div class="col-md-3">
+                <div class="card info-card sales-card">
+
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Category <span>| Total</span></h5>
+
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-files"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>@item.Total @item.Category</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Offices</div>
+                    <div class="table-responsive">
+                        <table id="office" class="table table-light table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Office</th>
+                                    <th>Contact No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Offices)
+                                {
+                                    <tr>
+                                        <td>@item.Office</td>
+                                        <td>@item.ContactNo</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Office</th>
+                                    <th>Contact No.</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+
     </div>
 </section>
+
+@section scripts {
+
+    <script>
+        $('#office').DataTable();
+    </script>    
+    
+}

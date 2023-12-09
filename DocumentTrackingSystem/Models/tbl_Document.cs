@@ -25,6 +25,7 @@ namespace DocumentTrackingSystem.Models
         public HttpPostedFileBase Upload { get; set; }
 
         [Display(Name = "QR Code")]
+        [DisplayFormat(NullDisplayText = "N/A", ConvertEmptyStringToNull = true)]
         public String QRCode { get; set; }
 
         [Display(Name = "Received From")]
@@ -34,10 +35,14 @@ namespace DocumentTrackingSystem.Models
         [Display(Name = "Office")]
         [Required]
         public Int32 Office { get; set; }
+        [Display(Name = "Office")]
+        public string OfficeName { get; set; }
 
-        [Display(Name = "Category")]
+        [Display(Name = "Document Type")]
         [Required]
         public Int32 Category { get; set; }
+        [Display(Name = "Document Type")]
+        public string CategoryName { get; set; }
 
         [Display(Name = "Description")]
         [DataType(DataType.MultilineText)]
@@ -47,6 +52,8 @@ namespace DocumentTrackingSystem.Models
         [Display(Name = "Encoder")]
         [ScaffoldColumn(false)]
         public Int32 Encoder { get; set; }
+        [Display(Name = "Encoder")]
+        public string EncoderName { get; set; }
 
         [Display(Name = "Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -71,6 +78,27 @@ namespace DocumentTrackingSystem.Models
 
                 return r;
             }).ToList();
+        }
+
+        public List<tbl_Document> List(string search)
+        {
+
+            return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "SearchFromReceived"); p.Add("@Search", search); }, CommandType.StoredProcedure)
+            .Select(r =>
+            {
+
+                return r;
+            }).ToList();
+        }
+
+        public List<string> ReceivedFromList(string Term)
+        {
+            var list = new List<String>();
+            s.Query("tbl_Document_Proc", p => { p.Add("@Type", "ReceivedFromList"); p.Add("@Search", Term); }, CommandType.StoredProcedure).ForEach(r =>
+            {
+                list.Add(r[0] as string);
+            });
+            return list;
         }
 
         string DestinationPath(string Sub, string ReceivedFrom)
@@ -119,7 +147,7 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@Type", "Update");
                 p.Add("@ID", obj.ID);
                 p.Add("@Path", document);
-                p.Add("@Filename", obj.Upload.FileName);
+                p.Add("@Filename", obj.Upload == null ? obj.Filename : obj.Upload.FileName);
                 p.Add("@QRCode", obj.QRCode);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);

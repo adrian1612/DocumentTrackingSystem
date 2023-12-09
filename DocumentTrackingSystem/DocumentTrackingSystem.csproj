@@ -880,6 +880,7 @@
     <Content Include="Views\Document\Edit.cshtml" />
     <Content Include="Views\Document\Field.cshtml" />
     <Content Include="Views\Document\Index.cshtml" />
+    <Content Include="Views\Document\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
