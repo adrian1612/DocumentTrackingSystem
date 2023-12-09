@@ -30,6 +30,7 @@
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.Category)</th>
+                        <th>@Html.DisplayNameFor(model => model.Color)</th>
                         <th class="text-end">Action</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Color)</td>
                             <td class="text-end">
                                 <div class="filter">
                                     <a class="text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

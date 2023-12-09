@@ -20,6 +20,10 @@ namespace DocumentTrackingSystem.Models
         [Required]
         public String Category { get; set; }
 
+        [DataType("color")]
+        [Required]
+        public string Color { get; set; }
+
         public int Total { get; set; }
 
         [Display(Name = "Timestamp")]
@@ -63,7 +67,7 @@ namespace DocumentTrackingSystem.Models
             var ID = s.Insert("[tbl_Categories]", p =>
             {
                 p.Add("Category", obj.Category);
-
+                p.Add("Color", obj.Color);
             });
             return ID;
         }
@@ -73,7 +77,7 @@ namespace DocumentTrackingSystem.Models
             s.Update("[tbl_Categories]", obj.ID, p =>
             {
                 p.Add("Category", obj.Category);
-
+                p.Add("Color", obj.Color);
             });
         }
         public void Delete(tbl_Categories obj)

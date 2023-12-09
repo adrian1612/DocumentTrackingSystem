@@ -20,7 +20,10 @@ namespace DocumentTrackingSystem.Models
         public ActionResult SearchFromReceived(string query)
         {
             var list = mod.List(search: query);
-            ViewBag.Keyword = query;
+            if (list.Count >= 1)
+            {
+                ViewBag.Keyword = list[0].ReceivedFrom;
+            }
             return View(list);
         }
 

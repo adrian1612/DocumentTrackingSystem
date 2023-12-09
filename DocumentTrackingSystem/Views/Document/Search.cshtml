@@ -18,7 +18,10 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">@ViewBag.Title</div>
-        <h5>Keyword: @ViewBag.Keyword</h5>
+        @if (ViewBag.Keyword != null)
+        {
+            <h5>Match found: @ViewBag.Keyword</h5>
+        }
         <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
             <div class="col" aria-action="Add">
                 <p>
