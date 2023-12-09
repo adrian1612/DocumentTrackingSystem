@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace DocumentTrackingSystem.Models
 {
+    [Authorized]
     public class UserController : Controller
     {
         tbl_User mod = new tbl_User();
@@ -38,8 +39,11 @@ namespace DocumentTrackingSystem.Models
         {
             if (ModelState.IsValid)
             {
-                mod.Create(m);
-                return RedirectToAction("Index");
+                if (mod.Create(m))
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("", "Username already taken.");
             }
             return View(m);
         }
@@ -55,8 +59,11 @@ namespace DocumentTrackingSystem.Models
         {
             if (ModelState.IsValid)
             {
-                mod.Update(m);
-                return RedirectToAction("Index");
+                if (mod.Update(m))
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("", "Username already taken.");
             }
             return View(m);
         }

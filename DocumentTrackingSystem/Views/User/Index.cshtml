@@ -1,7 +1,7 @@
 @using DocumentTrackingSystem.Models
 @model IEnumerable<tbl_User>
 @{
-    ViewBag.Title = "User";
+    ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,7 +21,7 @@
         <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
             <div class="col" aria-action="Add">
                 <p>
-                    @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-success" })
+                    @Html.ActionLink("New user", "Create", "", new { @class = "btn btn-success" })
                 </p>
             </div>
         </div>
@@ -29,7 +29,6 @@
             <table id="data" class="table table-light table-hover table-striped" style="font-size:0.9rem;">
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.ID)</th>
                         <th>@Html.DisplayNameFor(model => model.Username)</th>
                         <th>@Html.DisplayNameFor(model => model.Password)</th>
                         <th>@Html.DisplayNameFor(model => model.Role)</th>
@@ -47,7 +46,6 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.ID)</td>
                             <td>@Html.DisplayFor(modelItem => item.Username)</td>
                             <td>@Html.DisplayFor(modelItem => item.Password)</td>
                             <td>@Html.DisplayFor(modelItem => item.Role)</td>
