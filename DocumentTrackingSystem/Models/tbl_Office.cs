@@ -20,7 +20,7 @@ namespace DocumentTrackingSystem.Models
         [Required]
         public String Office { get; set; }
 
-        [Display(Name = "Contact No.")]
+        [Display(Name = "ContactNo")]
         public String ContactNo { get; set; }
 
         [Display(Name = "Timestamp")]

@@ -1,7 +1,7 @@
 @using DocumentTrackingSystem.Models
-@model IEnumerable<tbl_Categories>
+@model IEnumerable<tbl_Document>
 @{
-    ViewBag.Title = "Document Types";
+    ViewBag.Title = "Recevied Documents";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,10 +18,11 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">@ViewBag.Title</div>
+        <h5>Keyword: @ViewBag.Keyword</h5>
         <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
             <div class="col" aria-action="Add">
                 <p>
-                    @Html.ActionLink("New document type", "Create", "", new { @class = "btn btn-success" })
+                    @Html.ActionLink("Receive", "Create", "", new { @class = "btn btn-success" })
                 </p>
             </div>
         </div>
@@ -29,7 +30,14 @@
             <table id="data" class="table table-light table-hover table-striped" style="font-size:0.9rem;">
                 <thead>
                     <tr>
+                        <th>@Html.DisplayNameFor(model => model.Filename)</th>
+                        <th>@Html.DisplayNameFor(model => model.QRCode)</th>
+                        <th>@Html.DisplayNameFor(model => model.ReceivedFrom)</th>
+                        <th>@Html.DisplayNameFor(model => model.Office)</th>
                         <th>@Html.DisplayNameFor(model => model.Category)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Date)</th>
+                        <th>@Html.DisplayNameFor(model => model.Encoder)</th>
                         <th class="text-end">Action</th>
                     </tr>
                 </thead>
@@ -37,7 +45,16 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                            <td>
+                                <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.QRCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
+                            <td>@Html.DisplayFor(modelItem => item.OfficeName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy}")</td>
+                            <td>@Html.DisplayFor(modelItem => item.EncoderName).ToHtmlString().ToUpper()</td>
                             <td class="text-end">
                                 <div class="filter">
                                     <a class="text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

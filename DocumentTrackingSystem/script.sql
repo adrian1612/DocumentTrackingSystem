@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 09/12/2023 8:03:47 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -70,7 +70,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -160,7 +160,7 @@ END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -170,9 +170,8 @@ GO
 CREATE TABLE [dbo].[tbl_Categories](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Category] [varchar](max) NULL,
-	[Color] [varchar](50) NULL,
 	[Timestamp] [datetime] NULL,
- CONSTRAINT [PK__tbl_Cate__3214EC27FC904875] PRIMARY KEY CLUSTERED 
+PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -181,7 +180,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -209,7 +208,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -230,7 +229,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -259,23 +258,20 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE VIEW [dbo].[vw_Categories]
 AS
 SELECT [ID]
       ,[Category]
-	  ,Color
 	  ,Total = (SELECT COUNT(*) FROM tbl_Document WHERE Category = c.ID)
       ,[Timestamp]
   FROM [tbl_Categories] c
-
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 09/12/2023 8:03:48 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -298,7 +294,7 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Document] d
 GO
-ALTER TABLE [dbo].[tbl_Categories] ADD  CONSTRAINT [DF__tbl_Categ__Times__182C9B23]  DEFAULT (getdate()) FOR [Timestamp]
+ALTER TABLE [dbo].[tbl_Categories] ADD  DEFAULT (getdate()) FOR [Timestamp]
 GO
 ALTER TABLE [dbo].[tbl_Document] ADD  DEFAULT (getdate()) FOR [Timestamp]
 GO
