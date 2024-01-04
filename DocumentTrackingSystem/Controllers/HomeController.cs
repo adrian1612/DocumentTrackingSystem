@@ -72,7 +72,7 @@ namespace DocumentTrackingSystem.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear();
+            Session.Clear();//
             return Redirect("/");
         }
 
