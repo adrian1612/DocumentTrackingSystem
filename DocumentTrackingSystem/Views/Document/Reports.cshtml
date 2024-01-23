@@ -1,0 +1,90 @@
+@using DocumentTrackingSystem.Models
+@model IEnumerable<tbl_Document>
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>@ViewBag.Title</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+            <li class="breadcrumb-item active">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">@ViewBag.Title</div>
+        <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
+            <div class="col-md-4">
+                <div class="row mb-3">
+                    <label class="col-md-3 col-form-label">Search By</label>
+                    <div class="col-md-9">
+                        <select id="searchType" class="form-select form-select-sm">
+                            <option value="0">Date</option>
+                            <option value="1">Office</option>
+                            <option value="2">Document Type</option>
+                            <option value="3">QR Code</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="row mb-3">
+                    <label class="col-md-3 col-form-label">Keyword</label>
+                    <div class="col-md-9">
+                        <input id="searchKeyword" type="search" class="form-control" name="Keyword" placeholder="Enter keyword here" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="report_data" class="table-responsive">
+            
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tableFormat = () => {
+            $('#data').DataTable({
+                ordering: false,
+                searching: false
+            });
+        }
+      
+        tableFormat();
+
+
+        var loadData = (ReportType, Search, From, To) => {
+            if (ReportType == 0) {
+                
+            }
+            $.ajax({
+                url: '@Url.Action("Reports_Partial")',
+                data: {
+                    rt: ReportType,
+                    Category: Search,
+                    Office: Search,
+                    QRCode: Search,
+                    From: From,
+                    To: To
+                },
+                dataType: 'html',
+                beforeSend: () => {
+                    $('#spinner').show();
+                },
+                success: (d) => {
+                    $('#report_data').html(d);
+                    tableFormat();
+                    $('#spinner').hide();
+                }
+            });
+        }
+
+        
+    </script>
+}

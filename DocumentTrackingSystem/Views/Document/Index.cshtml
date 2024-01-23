@@ -52,7 +52,7 @@
                             <td>@Html.DisplayFor(modelItem => item.OfficeName)</td>
                             <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                            <td>@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy}")</td>
+                            <td>@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy hh:mm tt}")</td>
                             <td>@Html.DisplayFor(modelItem => item.EncoderName).ToHtmlString().ToUpper()</td>
                             <td class="text-end">
                                 <div class="filter">

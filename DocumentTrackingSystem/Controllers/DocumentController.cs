@@ -77,6 +77,18 @@ namespace DocumentTrackingSystem.Models
             return View(m);
         }
 
+        public ActionResult Reports()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Reports_Partial(ReportType rt, tbl_Document m)
+        {
+            var list = mod.Reports(rt, m);
+            return PartialView(list);
+        }
+        
         public ActionResult Detail(int ID)
         {
             var item = mod.Find(ID);

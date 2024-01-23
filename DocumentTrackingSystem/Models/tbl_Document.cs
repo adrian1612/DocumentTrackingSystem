@@ -56,8 +56,8 @@ namespace DocumentTrackingSystem.Models
         public string EncoderName { get; set; }
 
         [Display(Name = "Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
+        [DataType("datetime-local")]
         public DateTime? Date { get; set; }
 
         [Display(Name = "Timestamp")]
@@ -65,6 +65,12 @@ namespace DocumentTrackingSystem.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
         public DateTime? Timestamp { get; set; }
+
+        [Display(Name = "From")]
+        public DateTime From { get; set; }
+
+        [Display(Name = "To")]
+        public DateTime To { get; set; }
 
         public tbl_Document()
         {
@@ -84,6 +90,25 @@ namespace DocumentTrackingSystem.Models
         {
 
             return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "SearchFromReceived"); p.Add("@Search", search); }, CommandType.StoredProcedure)
+            .Select(r =>
+            {
+
+                return r;
+            }).ToList();
+        }
+
+        public List<tbl_Document> Reports(ReportType ReportType, tbl_Document obj)
+        {
+
+            return s.Query<tbl_Document>("tbl_Document_Proc", p => 
+            {
+                p.Add("@Type", Enum.GetName(typeof(ReportType), ReportType));
+                p.Add("@QRCode", obj.QRCode);
+                p.Add("@Office", obj.Office);
+                p.Add("@Category", obj.Category);
+                p.Add("@From", obj.From);
+                p.Add("@To", obj.To);
+            }, CommandType.StoredProcedure)
             .Select(r =>
             {
 
@@ -164,6 +189,14 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@ID", obj.ID);
             });
         }
+    }
+
+    public enum ReportType
+    {
+        ByDate,
+        ByOffice,
+        ByDocumentType,
+        ByQRCode
     }
 
 
