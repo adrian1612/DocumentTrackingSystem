@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 23/01/2024 5:28:35 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -23,7 +23,9 @@ CREATE PROCEDURE [dbo].[tbl_Document_Proc]
 @Description varchar(max) = null,
 @Encoder int = null,
 @Date datetime = null,
-@Timestamp datetime = null
+@Timestamp datetime = null,
+@From DATETIME = NULL,
+@To DATETIME = NULL
 AS
 BEGIN
 IF @Type = 'Create'
@@ -57,6 +59,26 @@ BEGIN
 	SELECT * FROM [vw_Document] WHERE ReceivedFrom LIKE CONCAT('%', @Search, '%')
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'ByDate'
+BEGIN
+	SELECT * FROM [vw_Document] WHERE [Date] BETWEEN @From AND @To
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'ByDocumentType'
+BEGIN
+	SELECT * FROM [vw_Document] WHERE Category = @Category
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'ByQRCode'
+BEGIN
+	SELECT * FROM [vw_Document] WHERE QRCode = @QRCode
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'ByOffice'
+BEGIN
+	SELECT * FROM [vw_Document] WHERE Office = @Office
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Find'
 BEGIN
 	SELECT * FROM [vw_Document] WHERE  ID = @ID
@@ -69,8 +91,9 @@ END
 END
 
 
+
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -159,8 +182,9 @@ END
 END
 
 
+
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -171,7 +195,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Category] [varchar](max) NULL,
 	[Color] [varchar](50) NULL,
-	[Timestamp] [datetime] NULL,
+	[Timestamp] [datetime] NULL CONSTRAINT [DF__tbl_Categ__Times__182C9B23]  DEFAULT (getdate()),
  CONSTRAINT [PK__tbl_Cate__3214EC27FC904875] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -181,7 +205,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -199,7 +223,7 @@ CREATE TABLE [dbo].[tbl_Document](
 	[Description] [varchar](max) NULL,
 	[Encoder] [int] NULL,
 	[Date] [datetime] NULL,
-	[Timestamp] [datetime] NULL,
+	[Timestamp] [datetime] NULL DEFAULT (getdate()),
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -209,7 +233,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,7 +244,7 @@ CREATE TABLE [dbo].[tbl_Office](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Office] [varchar](max) NULL,
 	[ContactNo] [varchar](max) NULL,
-	[Timestamp] [datetime] NULL,
+	[Timestamp] [datetime] NULL DEFAULT (getdate()),
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -230,7 +254,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,15 +265,15 @@ CREATE TABLE [dbo].[tbl_User](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [varchar](max) NULL,
 	[Password] [varchar](max) NULL,
-	[Role] [int] NULL,
-	[Active] [bit] NULL,
+	[Role] [int] NULL DEFAULT ((2)),
+	[Active] [bit] NULL DEFAULT ((1)),
 	[fname] [varchar](max) NULL,
 	[mn] [varchar](max) NULL,
 	[lname] [varchar](max) NULL,
 	[gender] [varchar](50) NULL,
 	[email] [varchar](max) NULL,
 	[address] [varchar](max) NULL,
-	[Timestamp] [datetime] NULL,
+	[Timestamp] [datetime] NULL DEFAULT (getdate()),
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -259,7 +283,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -274,8 +298,9 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Categories] c
 
+
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 10/12/2023 7:25:55 am ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 23/01/2024 5:28:35 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,18 +322,7 @@ SELECT [ID]
       ,[Date]
       ,[Timestamp]
   FROM [tbl_Document] d
-GO
-ALTER TABLE [dbo].[tbl_Categories] ADD  CONSTRAINT [DF__tbl_Categ__Times__182C9B23]  DEFAULT (getdate()) FOR [Timestamp]
-GO
-ALTER TABLE [dbo].[tbl_Document] ADD  DEFAULT (getdate()) FOR [Timestamp]
-GO
-ALTER TABLE [dbo].[tbl_Office] ADD  DEFAULT (getdate()) FOR [Timestamp]
-GO
-ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT ((2)) FOR [Role]
-GO
-ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT (getdate()) FOR [Timestamp]
+
 GO
 USE [master]
 GO
