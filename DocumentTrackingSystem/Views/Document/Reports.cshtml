@@ -18,11 +18,11 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">@ViewBag.Title</div>
-        <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
-            <div class="col-md-4">
-                <div class="row mb-3">
-                    <label class="col-md-3 col-form-label">Search By</label>
-                    <div class="col-md-9">
+        <div id="navControl" class="row mt-3">
+            <div class="col-md-3">
+                <div class="row">
+                    <label class="col-md-5 col-form-label">Search By</label>
+                    <div class="col-md-7">
                         <select id="searchType" class="form-select form-select-sm">
                             <option value="0">Date</option>
                             <option value="1">Office</option>
@@ -31,13 +31,8 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-                <div class="row mb-3">
-                    <label class="col-md-3 col-form-label">Keyword</label>
-                    <div class="col-md-9">
-                        <input id="searchKeyword" type="search" class="form-control" name="Keyword" placeholder="Enter keyword here" />
-                    </div>
+                <div class="row mb-3" id="field">
+
                 </div>
             </div>
         </div>
@@ -47,10 +42,15 @@
     </div>
 </div>
 
+
 @section scripts {
     <script>
         var tableFormat = () => {
             $('#data').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'print'
+                ],
                 ordering: false,
                 searching: false
             });
@@ -59,19 +59,39 @@
         tableFormat();
 
         $('#searchType').on('change', () => {
-
+            reportType();
+            loadData($('#searchType option:selected').val(), $('input[name="Keyword"]').val(), $('input[name="From"]').val(), $('input[name="To"]').val());
         });
 
-        var loadData = (ReportType, Search, From, To) => {
-            if (ReportType == 0) {
-                
+      
+        var reportType = () => {
+            if ($('#searchType option:selected').val() == 0) {
+                $('#navControl  #field').html(`
+                    <div class ="row g-2">
+                        <div class ="col-md-6">
+                            From <input id="From" type="date" class ="form-control" name="From" />
+                        </div>
+                        <div class ="col-md-6">
+                            To <input id="To" type="date" class ="form-control" name="To" />
+                        </div>
+                    </div>
+                    `);
+            } else {
+                $('#navControl  #field').html(`<input id="searchKeyword" type="search" class="form-control" name="Keyword" placeholder="Enter keyword here" />`);
             }
+        }
+        reportType();
+
+       
+
+        var loadData = (ReportType, Search, From, To) => {
             $.ajax({
-                url: '@Url.Action("Reports_Partial")',
+                method:'post',
+                url: '@Url.Action("Reports_Partial", "Document")',
                 data: {
                     rt: ReportType,
-                    Category: Search,
-                    Office: Search,
+                    CategoryName: Search,
+                    OfficeName: Search,
                     QRCode: Search,
                     From: From,
                     To: To
@@ -84,10 +104,15 @@
                     $('#report_data').html(d);
                     tableFormat();
                     $('#spinner').hide();
+                },
+                error: () => {
+                    $('#spinner').hide();
                 }
             });
         }
 
-        
+        $('#navControl').on('keyup change', 'input[name="Keyword"], input[type="date"]', () => {
+            loadData($('#searchType option:selected').val(), $('input[name="Keyword"]').val(), $('input[name="From"]').val(), $('input[name="To"]').val());
+        });
     </script>
 }

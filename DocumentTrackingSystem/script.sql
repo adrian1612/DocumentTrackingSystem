@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 24/01/2024 2:40:07 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -66,17 +66,17 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'ByDocumentType'
 BEGIN
-	SELECT * FROM [vw_Document] WHERE Category = @Category
+	SELECT * FROM [vw_Document] WHERE Category LIKE CONCAT('%',@Search,'%')
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'ByQRCode'
 BEGIN
-	SELECT * FROM [vw_Document] WHERE QRCode = @QRCode
+	SELECT * FROM [vw_Document] WHERE QRCode LIKE CONCAT('%',@Search,'%')
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'ByOffice'
 BEGIN
-	SELECT * FROM [vw_Document] WHERE Office = @Office
+	SELECT * FROM [vw_Document] WHERE OfficeName LIKE CONCAT('%',@Search,'%')
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Find'
@@ -93,7 +93,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -184,7 +184,7 @@ END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +205,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -233,7 +233,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +254,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -283,7 +283,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -300,7 +300,7 @@ SELECT [ID]
 
 
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 23/01/2024 5:28:35 pm ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 24/01/2024 2:40:07 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,6 +323,37 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Document] d
 
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Categories] ON 
+
+GO
+INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (1, N'Clearance', N'#a25353', CAST(N'2024-01-23 08:47:08.890' AS DateTime))
+GO
+INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (2, N'Communication', N'#409695', CAST(N'2024-01-23 08:55:36.147' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Categories] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Document] ON 
+
+GO
+INSERT [dbo].[tbl_Document] ([ID], [Path], [Filename], [QRCode], [ReceivedFrom], [Office], [Category], [Description], [Encoder], [Date], [Timestamp]) VALUES (1, N'~/Attachment/Clearance/Adrian Japsio/b885f3a6-64bc-4af8-9e92-a7c42cdfab14.pdf', N'G3L8E-1728866.pdf', N'324234', N'Adrian Japsio', 1, 1, N'Clearance', 1, CAST(N'2024-01-23 11:24:00.000' AS DateTime), CAST(N'2024-01-23 11:24:24.610' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Document] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Office] ON 
+
+GO
+INSERT [dbo].[tbl_Office] ([ID], [Office], [ContactNo], [Timestamp]) VALUES (1, N'Registrar', N'09194291969', CAST(N'2024-01-23 08:53:32.380' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Office] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_User] ON 
+
+GO
+INSERT [dbo].[tbl_User] ([ID], [Username], [Password], [Role], [Active], [fname], [mn], [lname], [gender], [email], [address], [Timestamp]) VALUES (1, N'admin', N'admin!!@@', 2, 1, N'Adrian', N'Aranilla', N'Jaspio', N'Male', N'adrianjaspio@gamil.com', N'94 Milagrosa, Calamba City
+MAYO HOLDINGS AND CONSTRUCTION INC.', CAST(N'2024-01-23 08:46:26.873' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_User] OFF
 GO
 USE [master]
 GO

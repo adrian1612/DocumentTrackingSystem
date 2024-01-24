@@ -103,11 +103,22 @@ namespace DocumentTrackingSystem.Models
             return s.Query<tbl_Document>("tbl_Document_Proc", p => 
             {
                 p.Add("@Type", Enum.GetName(typeof(ReportType), ReportType));
-                p.Add("@QRCode", obj.QRCode);
-                p.Add("@Office", obj.Office);
-                p.Add("@Category", obj.Category);
-                p.Add("@From", obj.From);
-                p.Add("@To", obj.To);
+                switch (ReportType)
+                {
+                    case ReportType.ByDate:
+                        p.Add("@From", obj.From);
+                        p.Add("@To", obj.To);
+                        break;
+                    case ReportType.ByOffice:
+                        p.Add("@Search", obj.OfficeName);
+                        break;
+                    case ReportType.ByDocumentType:
+                        p.Add("@Search", obj.CategoryName);
+                        break;
+                    case ReportType.ByQRCode:
+                        p.Add("@Search", obj.QRCode);
+                        break;
+                }
             }, CommandType.StoredProcedure)
             .Select(r =>
             {
