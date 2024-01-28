@@ -1,7 +1,7 @@
 @using DocumentTrackingSystem.Models
 @model IEnumerable<tbl_Document>
 
-<table id="data" class="table table-light table-hover table-striped" style="font-size:0.9rem;">
+<table id="data" class="table table-light table-hover table-striped table-bordered">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Filename)</th>
@@ -19,16 +19,18 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="align-middle text-center">
                     <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
                 </td>
-                <td>@Html.DisplayFor(modelItem => item.QRCode)</td>
-                <td>@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
-                <td>@Html.DisplayFor(modelItem => item.OfficeName)</td>
-                <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy hh:mm tt}")</td>
-                <td>@Html.DisplayFor(modelItem => item.EncoderName).ToHtmlString().ToUpper()</td>
+                <td class="align-middle text-center">
+                    <img src="@item.QRCode64" width="60" alt="QR Code" />
+                </td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.OfficeName)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.Description)</td>
+                <td class="align-middle text-center">@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy hh:mm tt}")</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.EncoderName).ToHtmlString().ToUpper()</td>
                 <td class="text-end">
                     <div class="filter">
                         <a class="text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

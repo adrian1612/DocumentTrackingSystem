@@ -1,8 +1,10 @@
 using DocumentTrackingSystem.Classes;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -27,6 +29,33 @@ namespace DocumentTrackingSystem.Models
         [Display(Name = "QR Code")]
         [DisplayFormat(NullDisplayText = "N/A", ConvertEmptyStringToNull = true)]
         public String QRCode { get; set; }
+
+        public byte[] QRCodeBytes
+        {
+            get
+            {
+                var qrgen = new QRCodeGenerator();
+                var qrdata = qrgen.CreateQrCode(QRCode, QRCodeGenerator.ECCLevel.Q);
+                var qrcode = new QRCode(qrdata);
+                var bmp = qrcode.GetGraphic(7);
+                var converter = new ImageConverter();
+                var result = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+                return result;
+            }
+        }
+
+        public string QRCode64
+        {
+            get
+            {
+                var output = "";
+                if (QRCodeBytes != null)
+                {
+                    output = $"data:image/bmp;base64,{Convert.ToBase64String(QRCodeBytes)}";
+                }
+                return output;
+            }
+        }
 
         [Display(Name = "Received From")]
         [Required]
@@ -163,7 +192,6 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@Type", "Create");
                 p.Add("@Path", document);
                 p.Add("@Filename", obj.Upload.FileName);
-                p.Add("@QRCode", obj.QRCode);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);
                 p.Add("@Category", obj.Category);
@@ -184,7 +212,6 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@ID", obj.ID);
                 p.Add("@Path", document);
                 p.Add("@Filename", obj.Upload == null ? obj.Filename : obj.Upload.FileName);
-                p.Add("@QRCode", obj.QRCode);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);
                 p.Add("@Category", obj.Category);

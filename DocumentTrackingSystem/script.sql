@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 28/01/2024 8:15:53 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,9 +31,9 @@ BEGIN
 IF @Type = 'Create'
 BEGIN
 	INSERT INTO [tbl_Document]
-	([Path],[Filename],[QRCode],[ReceivedFrom],[Office],[Category],[Description],[Encoder],[Date])
+	([Path],[Filename],[ReceivedFrom],[Office],[Category],[Description],[Encoder],[Date])
 	VALUES
-	(@Path,@Filename,@QRCode,@ReceivedFrom,@Office,@Category,@Description,@Encoder,@Date)
+	(@Path,@Filename,@ReceivedFrom,@Office,@Category,@Description,@Encoder,@Date)
 
 END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,7 +41,6 @@ IF @Type = 'Update'
 BEGIN
 	UPDATE [tbl_Document] SET [Path] = @Path
 	,[Filename] = @Filename
-	,[QRCode] = @QRCode
 	,[ReceivedFrom] = @ReceivedFrom
 	,[Office] = @Office
 	,[Category] = @Category
@@ -92,8 +91,9 @@ END
 
 
 
+
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -183,8 +183,9 @@ END
 
 
 
+
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,7 +196,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Category] [varchar](max) NULL,
 	[Color] [varchar](50) NULL,
-	[Timestamp] [datetime] NULL CONSTRAINT [DF__tbl_Categ__Times__182C9B23]  DEFAULT (getdate()),
+	[Timestamp] [datetime] NULL,
  CONSTRAINT [PK__tbl_Cate__3214EC27FC904875] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -205,7 +206,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -216,14 +217,13 @@ CREATE TABLE [dbo].[tbl_Document](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Path] [varchar](max) NULL,
 	[Filename] [varchar](max) NULL,
-	[QRCode] [varchar](500) NULL,
 	[ReceivedFrom] [varchar](max) NULL,
 	[Office] [int] NULL,
 	[Category] [int] NULL,
 	[Description] [varchar](max) NULL,
 	[Encoder] [int] NULL,
 	[Date] [datetime] NULL,
-	[Timestamp] [datetime] NULL DEFAULT (getdate()),
+	[Timestamp] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -233,7 +233,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -244,7 +244,7 @@ CREATE TABLE [dbo].[tbl_Office](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Office] [varchar](max) NULL,
 	[ContactNo] [varchar](max) NULL,
-	[Timestamp] [datetime] NULL DEFAULT (getdate()),
+	[Timestamp] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -254,7 +254,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -265,15 +265,15 @@ CREATE TABLE [dbo].[tbl_User](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [varchar](max) NULL,
 	[Password] [varchar](max) NULL,
-	[Role] [int] NULL DEFAULT ((2)),
-	[Active] [bit] NULL DEFAULT ((1)),
+	[Role] [int] NULL,
+	[Active] [bit] NULL,
 	[fname] [varchar](max) NULL,
 	[mn] [varchar](max) NULL,
 	[lname] [varchar](max) NULL,
 	[gender] [varchar](50) NULL,
 	[email] [varchar](max) NULL,
 	[address] [varchar](max) NULL,
-	[Timestamp] [datetime] NULL DEFAULT (getdate()),
+	[Timestamp] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -283,7 +283,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -299,18 +299,20 @@ SELECT [ID]
   FROM [tbl_Categories] c
 
 
+
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 24/01/2024 2:40:07 pm ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 28/01/2024 8:15:53 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vw_Document]
 AS
 SELECT [ID]
       ,[Path]
       ,[Filename]
-      ,[QRCode]
+      ,[QRCode] = CONCAT(FORMAT([Timestamp], 'ddMMMyy'), ' ', ID)
       ,[ReceivedFrom]
       ,[Office]
 	  ,OfficeName = (SELECT Office FROM tbl_Office WHERE ID = d.Office)
@@ -323,27 +325,29 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Document] d
 
+
+
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Categories] ON 
 
 GO
-INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (1, N'Clearance', N'#a25353', CAST(N'2024-01-23 08:47:08.890' AS DateTime))
+INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (1, N'Clearance', N'#a25353', CAST(0x0000B1000090C91B AS DateTime))
 GO
-INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (2, N'Communication', N'#409695', CAST(N'2024-01-23 08:55:36.147' AS DateTime))
+INSERT [dbo].[tbl_Categories] ([ID], [Category], [Color], [Timestamp]) VALUES (2, N'Communication', N'#409695', CAST(0x0000B10000931B8C AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Categories] OFF
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Document] ON 
 
 GO
-INSERT [dbo].[tbl_Document] ([ID], [Path], [Filename], [QRCode], [ReceivedFrom], [Office], [Category], [Description], [Encoder], [Date], [Timestamp]) VALUES (1, N'~/Attachment/Clearance/Adrian Japsio/b885f3a6-64bc-4af8-9e92-a7c42cdfab14.pdf', N'G3L8E-1728866.pdf', N'324234', N'Adrian Japsio', 1, 1, N'Clearance', 1, CAST(N'2024-01-23 11:24:00.000' AS DateTime), CAST(N'2024-01-23 11:24:24.610' AS DateTime))
+INSERT [dbo].[tbl_Document] ([ID], [Path], [Filename], [ReceivedFrom], [Office], [Category], [Description], [Encoder], [Date], [Timestamp]) VALUES (1, N'~/Attachment/Clearance/Adrian Japsio/b885f3a6-64bc-4af8-9e92-a7c42cdfab14.pdf', N'G3L8E-1728866.pdf', N'Adrian Japsio', 1, 1, N'Clearance', 1, CAST(0x0000B10000BBDDC0 AS DateTime), CAST(0x0000B10000BBFA97 AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Document] OFF
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Office] ON 
 
 GO
-INSERT [dbo].[tbl_Office] ([ID], [Office], [ContactNo], [Timestamp]) VALUES (1, N'Registrar', N'09194291969', CAST(N'2024-01-23 08:53:32.380' AS DateTime))
+INSERT [dbo].[tbl_Office] ([ID], [Office], [ContactNo], [Timestamp]) VALUES (1, N'Registrar', N'09194291969', CAST(0x0000B10000928A82 AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Office] OFF
 GO
@@ -351,9 +355,21 @@ SET IDENTITY_INSERT [dbo].[tbl_User] ON
 
 GO
 INSERT [dbo].[tbl_User] ([ID], [Username], [Password], [Role], [Active], [fname], [mn], [lname], [gender], [email], [address], [Timestamp]) VALUES (1, N'admin', N'admin!!@@', 2, 1, N'Adrian', N'Aranilla', N'Jaspio', N'Male', N'adrianjaspio@gamil.com', N'94 Milagrosa, Calamba City
-MAYO HOLDINGS AND CONSTRUCTION INC.', CAST(N'2024-01-23 08:46:26.873' AS DateTime))
+MAYO HOLDINGS AND CONSTRUCTION INC.', CAST(0x0000B100009097DE AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_User] OFF
+GO
+ALTER TABLE [dbo].[tbl_Categories] ADD  CONSTRAINT [DF__tbl_Categ__Times__182C9B23]  DEFAULT (getdate()) FOR [Timestamp]
+GO
+ALTER TABLE [dbo].[tbl_Document] ADD  DEFAULT (getdate()) FOR [Timestamp]
+GO
+ALTER TABLE [dbo].[tbl_Office] ADD  DEFAULT (getdate()) FOR [Timestamp]
+GO
+ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT ((2)) FOR [Role]
+GO
+ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT ((1)) FOR [Active]
+GO
+ALTER TABLE [dbo].[tbl_User] ADD  DEFAULT (getdate()) FOR [Timestamp]
 GO
 USE [master]
 GO
