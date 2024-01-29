@@ -139,7 +139,6 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>QRCode</DataSetName>
-        <Top>0.16542in</Top>
         <Left>0.27583in</Left>
         <Height>1.39583in</Height>
         <Width>1.19792in</Width>
@@ -155,6 +154,10 @@
   </Body>
   <Width>1.79042in</Width>
   <Page>
+    <LeftMargin>0.25in</LeftMargin>
+    <RightMargin>0.25in</RightMargin>
+    <TopMargin>0.25in</TopMargin>
+    <BottomMargin>0.25in</BottomMargin>
     <Columns>4</Columns>
     <ColumnSpacing>0.05118in</ColumnSpacing>
     <Style />

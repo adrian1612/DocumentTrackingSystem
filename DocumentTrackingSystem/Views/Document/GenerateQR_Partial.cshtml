@@ -27,6 +27,7 @@
                 </td>
                 <td class="align-middle text-center">
                     <img src="@item.QRCode64" width="60" alt="QR Code" />
+                    @Html.DisplayFor(modelItem => item.QRCode)
                 </td>
                 <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
                 <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.OfficeName)</td>

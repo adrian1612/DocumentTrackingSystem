@@ -100,6 +100,7 @@ namespace DocumentTrackingSystem.Models
             return PartialView(list);
         }
 
+        [HttpPost]
         public ActionResult GenerateQR(int startSeries, int endSeries)
         {
             var list = mod.GenerateQR(startSeries, endSeries);
