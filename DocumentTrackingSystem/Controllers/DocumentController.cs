@@ -88,7 +88,28 @@ namespace DocumentTrackingSystem.Models
             var list = mod.Reports(rt, m);
             return PartialView(list);
         }
-        
+
+        public ActionResult GenerateQR()
+        {
+            return View();
+        }
+
+        public ActionResult GenerateQR_Partial(int startSeries, int endSeries)
+        {
+            var list = mod.GenerateQR(startSeries, endSeries);
+            return PartialView(list);
+        }
+
+        public ActionResult GenerateQR(int startSeries, int endSeries)
+        {
+            var list = mod.GenerateQR(startSeries, endSeries);
+            Tools.ReportWrapper("~/Reports/QRCodes.rdlc", "QRCodes", ReportFormat.PDF, (d, p) =>
+            {
+                d.Add(new Microsoft.Reporting.WebForms.ReportDataSource("QRCode", list));
+            });
+            return View();
+        }
+
         public ActionResult Detail(int ID)
         {
             var item = mod.Find(ID);

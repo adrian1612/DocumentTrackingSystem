@@ -101,6 +101,10 @@ namespace DocumentTrackingSystem.Models
         [Display(Name = "To")]
         public DateTime To { get; set; }
 
+        public int? startSeries { get; set; }
+
+        public int? endSeries { get; set; }
+
         public tbl_Document()
         {
         }
@@ -119,6 +123,17 @@ namespace DocumentTrackingSystem.Models
         {
 
             return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "SearchFromReceived"); p.Add("@Search", search); }, CommandType.StoredProcedure)
+            .Select(r =>
+            {
+
+                return r;
+            }).ToList();
+        }
+
+        public List<tbl_Document> GenerateQR(int startSeries, int endSeries)
+        {
+
+            return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "GenerateQR"); p.Add("@startSeries", startSeries); p.Add("@endSeries", endSeries); }, CommandType.StoredProcedure)
             .Select(r =>
             {
 

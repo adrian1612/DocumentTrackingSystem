@@ -1,0 +1,61 @@
+@using DocumentTrackingSystem.Models
+@model IEnumerable<tbl_Document>
+@{
+    ViewBag.Title = "Generate QR Code";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>@ViewBag.Title</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+            <li class="breadcrumb-item active">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">@ViewBag.Title</div>
+        <div class="row row-cols-lg-auto g-1 align-items-center mt-3">
+            <div class="col" aria-action="Add">
+                <div class="row mb-3">
+                    <label class="col-md-4 col-form-label">Search</label>
+                    <div class="col-md-8">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" id="details">
+            
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $('#data').DataTable({
+            ordering: false,
+            searching: true
+        });
+
+        var loadData = (startSeries, endSeries) => {
+            $.ajax({
+                method: 'get',
+                url: '@Url.Action("GenerateQR_Partial", "Document", new { area = "" })',
+                data: { startSeries: startSeries, endSeries: endSeries },
+                dataType: 'HTML',
+                beforeSend: () => {
+                    $('#spinner').show();
+                },
+                success: (d) => {
+                    $('#details').html(d);
+                    $('#spinner').hide();
+                }
+            });
+        }
+
+    </script>
+}

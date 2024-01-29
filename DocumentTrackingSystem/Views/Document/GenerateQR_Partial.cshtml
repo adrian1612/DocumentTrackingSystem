@@ -1,0 +1,57 @@
+@using DocumentTrackingSystem.Models
+@model IEnumerable<tbl_Document>
+@{
+   
+}
+
+<table id="data" class="table table-light table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Filename)</th>
+            <th>@Html.DisplayNameFor(model => model.QRCode)</th>
+            <th>@Html.DisplayNameFor(model => model.ReceivedFrom)</th>
+            <th>@Html.DisplayNameFor(model => model.Office)</th>
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Encoder)</th>
+            <th class="text-end">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle text-center">
+                    <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
+                </td>
+                <td class="align-middle text-center">
+                    <img src="@item.QRCode64" width="60" alt="QR Code" />
+                </td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.OfficeName)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.Description)</td>
+                <td class="align-middle text-center">@Html.FormatValue(item.Date, "{0:MMM-dd-yyyy hh:mm tt}")</td>
+                <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.EncoderName).ToHtmlString().ToUpper()</td>
+                <td class="text-end">
+                    <div class="filter">
+                        <a class="text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li aria-action="Edit"><a href="@Url.Action("Edit", new { ID = item.ID })" class="dropdown-item" title="Edit/Modify"><i class="fa fa-edit me-2" style="font-size: 0.8rem;"></i>Edit</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script>
+
+
+</script>

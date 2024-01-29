@@ -890,6 +890,8 @@
     <Content Include="Views\Document\Search.cshtml" />
     <Content Include="Views\Document\Reports.cshtml" />
     <Content Include="Views\Document\Reports_Partial.cshtml" />
+    <Content Include="Views\Document\GenerateQR.cshtml" />
+    <Content Include="Views\Document\GenerateQR_Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
