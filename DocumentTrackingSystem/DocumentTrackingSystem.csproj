@@ -180,6 +180,7 @@
     <Compile Include="init.aspx.designer.cs">
       <DependentUpon>init.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbl_Activity.cs" />
     <Compile Include="Models\tbl_Categories.cs" />
     <Compile Include="Models\tbl_Document.cs" />
     <Compile Include="Models\tbl_Office.cs" />
@@ -828,7 +829,9 @@
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -893,6 +896,7 @@
     <Content Include="Views\Document\Reports_Partial.cshtml" />
     <Content Include="Views\Document\GenerateQR.cshtml" />
     <Content Include="Views\Document\GenerateQR_Partial.cshtml" />
+    <Content Include="Views\Home\ClientInquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

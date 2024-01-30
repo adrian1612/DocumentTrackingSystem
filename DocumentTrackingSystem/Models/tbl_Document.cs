@@ -105,6 +105,11 @@ namespace DocumentTrackingSystem.Models
 
         public int? endSeries { get; set; }
 
+        public DateTime? ADate { get; set; }
+        public string Activity { get; set; }
+
+        public List<tbl_Activity> Activities { get; set; }
+
         public tbl_Document()
         {
         }
@@ -128,6 +133,17 @@ namespace DocumentTrackingSystem.Models
 
                 return r;
             }).ToList();
+        }
+
+        public tbl_Document DocumentInquiry(string QRCode)
+        {
+
+            return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "QRCode"); p.Add("@QRCode", QRCode); }, CommandType.StoredProcedure)
+            .Select(r =>
+            {
+                r.Activities = new tbl_Activity().List(r.ID);
+                return r;
+            }).SingleOrDefault();
         }
 
         public List<tbl_Document> GenerateQR(int startSeries, int endSeries)
@@ -192,7 +208,7 @@ namespace DocumentTrackingSystem.Models
             return s.Query<tbl_Document>("tbl_Document_Proc", p => { p.Add("@Type", "Find"); p.Add("@ID", ID); }, CommandType.StoredProcedure)
             .Select(r =>
             {
-
+                r.Activities = new tbl_Activity().List(r.ID);
                 return r;
             }).SingleOrDefault();
         }
@@ -241,6 +257,18 @@ namespace DocumentTrackingSystem.Models
             {
                 p.Add("@ID", obj.ID);
             });
+        }
+
+        public List<tbl_Activity> AddActivity(tbl_Activity obj)
+        {
+            return s.Query<tbl_Activity>("tbl_Document_Proc", p =>
+            {
+                p.Add("@Type", "AddActivity");
+                p.Add("@ID", obj.DocumentID);
+                p.Add("@ADate", obj.ADate);
+                p.Add("@Activity", obj.Activity);
+                p.Add("@Encoder", UserSession.User.ID);
+            }, CommandType.StoredProcedure).ToList();
         }
     }
 

@@ -48,8 +48,8 @@
                                 <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
                             </td>
                             <td class="align-middle text-center">
-                                <img src="@item.QRCode64" width="60" alt="QR Code" />
-                                @Html.DisplayFor(modelItem => item.QRCode)
+                                @Html.DisplayFor(modelItem => item.QRCode) <br />
+                                <button class="btn btn-sm btn-primary" onclick="initActivityModal(@item.ID)"><i class="fa fa-clipboard me-1"></i>Activity</button>
                             </td>
                             <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
                             <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.OfficeName)</td>
@@ -75,12 +75,102 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalActivity" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("AddActivity", "Document", new AjaxOptions { HttpMethod = "POST", OnSuccess = "FillActivity" }))
+            {
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                 <div class="card mb-2">
+                     <div class="card-body">
+                         <div class="card-title">Activity</div>
+                         <input type="hidden" name="DocumentID" value="" />
+                         <div class="row mb-3">
+                             <label class="col-md-4">Date</label>
+                             <div class="col-md-8">
+                                 <input type="datetime-local" name="ADate" class="form-control" value="" />
+                             </div>
+                         </div>
+                         <div class="row mb-3">
+                             <label class="col-md-4">Activity</label>
+                             <div class="col-md-8">
+                                 <textarea name="Activity" class="form-control" rows="3"></textarea>
+                             </div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-md-12 text-end">
+                                 <input type="submit" class="btn btn-sm btn-success" value="Submit Activity" />
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Activity Record</div>
+                        <div class="table-responsive">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Activity</th>
+                                            <th>Encoder</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <script>
         $('#data').DataTable({
             ordering: false,
             searching: true
         });
+
+        var FillActivity = (d) => {
+            var table = $('#modalActivity table tbody');
+            var result = '';
+            $.each(d, (i, item) => {
+                result +=
+                    `
+                    <tr>
+                        <th>${item.ADatestring}</th>
+                        <th>${item.Activity}</th>
+                        <th>${item.EncoderName}</th>
+                    </tr>
+                    `;
+            });
+            table.html(result);
+        }
+
+        var initActivityModal = (ID) => {
+            $('#modalActivity .modal-title').text(ID);
+            $('#modalActivity input[type="hidden"]').val(ID);
+            $.ajax({
+                url: '@Url.Action("ListActivity", "Document")',
+                data: { ID: ID },
+                dataType: 'json',
+                success: (d) => FillActivity(d)
+            })
+            $('#modalActivity').modal('show');
+        };
 
     </script>
 }

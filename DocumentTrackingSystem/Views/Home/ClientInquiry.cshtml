@@ -1,0 +1,60 @@
+@using DocumentTrackingSystem.Models
+@model tbl_Document
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+<div class="pt-4 pb-2 text-center">
+    <img src="@Url.Content("~/Content/Img/logo.png")" alt="Alternate Text" />
+    <h5 class="card-title text-center pb-0 fs-4">RECORDS</h5>
+    <p class="text-center small">Scan QR Code or enter Code</p>
+</div>
+
+<form action="@Url.Action("ClientInquiry", "Home")" method="get" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-12">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (ViewBag.Message != null)
+        {
+            <p class="text-danger">@ViewBag.Message</p>
+        }
+    </div>
+    <div class="col-12">
+        <label class="form-label">QR Code</label>
+        <input type="text" name="QRCode" class="form-control" required>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary w-100" type="submit">SEARCH</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>Activity</th>
+                    <th>Encoder</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Activities)
+                {
+                    <tr>
+                        <td>@item.ADatestring</td>
+                        <td>@item.Activity</td>
+                        <td>@item.EncoderName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

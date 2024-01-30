@@ -117,6 +117,25 @@ namespace DocumentTrackingSystem.Models
             return View(item);
         }
 
+        public ActionResult ClientInquiry(string QRCode = "")
+        {
+            var item = mod.DocumentInquiry(QRCode);
+            return View(item);
+        }
+
+        public ActionResult ListActivity(int ID)
+        {
+            var result = new tbl_Activity().List(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddActivity(tbl_Activity m)
+        {
+            var result = mod.AddActivity(m);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Delete(int ID)
         {
             var item = mod.Find(ID);

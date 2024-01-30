@@ -70,6 +70,18 @@ namespace DocumentTrackingSystem.Controllers
             return View(m);
         }
 
+        [AllowAnonymous]
+        public ActionResult ClientInquiry(string QRCode = "")
+        {
+            var mod = new tbl_Document();
+            var item = mod.DocumentInquiry(QRCode);
+            if (item == null)
+            {
+                ViewBag.Message = "NO RECORD FOUND";
+            }
+            return View(item);
+        }
+
         public ActionResult Logout()
         {
             Session.Clear();
