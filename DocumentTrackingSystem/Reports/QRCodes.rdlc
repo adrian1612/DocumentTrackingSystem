@@ -6,7 +6,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.19792in</Width>
+              <Width>2in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -20,6 +20,9 @@
                         <Tablix Name="Tablix3">
                           <TablixBody>
                             <TablixColumns>
+                              <TablixColumn>
+                                <Width>1in</Width>
+                              </TablixColumn>
                               <TablixColumn>
                                 <Width>1in</Width>
                               </TablixColumn>
@@ -60,6 +63,38 @@
                                       </Textbox>
                                     </CellContents>
                                   </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox1">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!QRCode.Value</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
                                 </TablixCells>
                               </TablixRow>
                               <TablixRow>
@@ -80,12 +115,28 @@
                                       </Image>
                                     </CellContents>
                                   </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Image Name="Image3">
+                                        <Source>Database</Source>
+                                        <Value>=Fields!QRCodeBytes.Value</Value>
+                                        <MIMEType>image/bmp</MIMEType>
+                                        <Sizing>FitProportional</Sizing>
+                                        <Style>
+                                          <Border>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                        </Style>
+                                      </Image>
+                                    </CellContents>
+                                  </TablixCell>
                                 </TablixCells>
                               </TablixRow>
                             </TablixRows>
                           </TablixBody>
                           <TablixColumnHierarchy>
                             <TablixMembers>
+                              <TablixMember />
                               <TablixMember />
                             </TablixMembers>
                           </TablixColumnHierarchy>
@@ -99,9 +150,8 @@
                               </TablixMember>
                             </TablixMembers>
                           </TablixRowHierarchy>
-                          <Left>0.1in</Left>
                           <Height>1.25in</Height>
-                          <Width>1in</Width>
+                          <Width>2in</Width>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -139,9 +189,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>QRCode</DataSetName>
-        <Left>0.27583in</Left>
         <Height>1.39583in</Height>
-        <Width>1.19792in</Width>
+        <Width>2in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -149,16 +198,16 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.70833in</Height>
+    <Height>1.39583in</Height>
     <Style />
   </Body>
-  <Width>1.79042in</Width>
+  <Width>2in</Width>
   <Page>
     <LeftMargin>0.25in</LeftMargin>
     <RightMargin>0.25in</RightMargin>
     <TopMargin>0.25in</TopMargin>
     <BottomMargin>0.25in</BottomMargin>
-    <Columns>4</Columns>
+    <Columns>3</Columns>
     <ColumnSpacing>0.05118in</ColumnSpacing>
     <Style />
   </Page>
