@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 02/02/2024 3:23:33 pm ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -35,9 +35,9 @@ BEGIN
 IF @Type = 'Create'
 BEGIN
 	INSERT INTO [tbl_Document]
-	([Path],[Filename],[ReceivedFrom],[Office],[Category],[Description],[Encoder],[Date])
+	([Path],[Filename],[QRCode],[ReceivedFrom],[Office],[Category],[Description],[Encoder],[Date])
 	VALUES
-	(@Path,@Filename,@ReceivedFrom,@Office,@Category,@Description,@Encoder,@Date)
+	(@Path,@Filename,@QRCode,@ReceivedFrom,@Office,@Category,@Description,@Encoder,@Date)
 
 	INSERT INTO tbl_Activity (DocumentID,ADate, Activity, Encoder) VALUES (IDENT_CURRENT('tbl_Document'),@Date, 'Document Encoded', @Encoder)
 END
@@ -46,6 +46,7 @@ IF @Type = 'Update'
 BEGIN
 	UPDATE [tbl_Document] SET [Path] = @Path
 	,[Filename] = @Filename
+	,[QRCode] = @QRCode
 	,[ReceivedFrom] = @ReceivedFrom
 	,[Office] = @Office
 	,[Category] = @Category
@@ -115,7 +116,69 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  StoredProcedure [dbo].[tbl_QRCode_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[tbl_QRCode_Proc]
+@Type VARCHAR(50),
+@Search VARCHAR(max) = null,
+@Count INT = 0,
+@ID int = null,
+@QRCode varchar(max) = null,
+@Encoder int = null,
+@Timestamp datetime = null
+AS
+BEGIN
+DECLARE @LastID INT = IDENT_CURRENT('tbl_QRCode')
+IF @Type = 'Create'
+BEGIN
+	WHILE @Count >= 1
+	BEGIN
+		SET @Count -= 1
+		INSERT INTO [tbl_QRCode]
+		([QRCode],[Encoder])
+		VALUES
+		(CONCAT(FORMAT(GETDATE(), 'ddMMyy'), FORMAT(CASE WHEN (SELECT COUNT(*) FROM tbl_QRCode) >= 1 AND IDENT_CURRENT('tbl_QRCode') = 1 THEN 2 ELSE IDENT_CURRENT('tbl_QRCode') END, '0000')), @Encoder)
+	END
+	SELECT * FROM tbl_QRCode WHERE ID BETWEEN CASE WHEN @LastID = 1 THEN @LastID ELSE @LastID + 1 END AND IDENT_CURRENT('tbl_QRCode')
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Update'
+BEGIN
+UPDATE [tbl_QRCode] SET [QRCode] = @QRCode
+,[Encoder] = @Encoder WHERE [ID] = @ID
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Search'
+BEGIN
+SELECT * FROM [vw_QRCode] ORDER BY ID DESC
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'AvailableQR'
+BEGIN
+	IF @ID IS NULL
+	BEGIN
+		SELECT * FROM [vw_QRCode] WHERE ID NOT IN (SELECT QRCode FROM tbl_Document WHERE QRCode IS NOT NULL) ORDER BY ID DESC
+	END
+	ELSE
+	BEGIN
+		SELECT * FROM [vw_QRCode] WHERE ID NOT IN (SELECT QRCode FROM tbl_Document WHERE QRCode IS NOT NULL) OR ID = @ID ORDER BY ID DESC
+	END
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF @Type = 'Find'
+BEGIN
+SELECT * FROM [vw_QRCode] WHERE  ID = @ID
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -208,7 +271,7 @@ END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Activity]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Table [dbo].[tbl_Activity]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -231,7 +294,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -252,7 +315,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -263,14 +326,15 @@ CREATE TABLE [dbo].[tbl_Document](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Path] [varchar](max) NULL,
 	[Filename] [varchar](max) NULL,
+	[QRCode] [int] NULL,
 	[ReceivedFrom] [varchar](max) NULL,
 	[Office] [int] NULL,
 	[Category] [int] NULL,
 	[Description] [varchar](max) NULL,
 	[Encoder] [int] NULL,
 	[Date] [datetime] NULL,
-	[Timestamp] [datetime] NULL DEFAULT (getdate()),
-PRIMARY KEY CLUSTERED 
+	[Timestamp] [datetime] NULL CONSTRAINT [DF__tbl_Docum__Times__1B0907CE]  DEFAULT (getdate()),
+ CONSTRAINT [PK__tbl_Docu__3214EC270F8DC1E5] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -279,7 +343,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -300,7 +364,28 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  Table [dbo].[tbl_QRCode]    Script Date: 02/02/2024 3:23:33 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tbl_QRCode](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[QRCode] [varchar](max) NULL,
+	[Encoder] [int] NULL,
+	[Timestamp] [datetime] NULL DEFAULT (getdate()),
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -329,7 +414,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Activity]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  View [dbo].[vw_Activity]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -345,7 +430,7 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Activity] a
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -364,18 +449,22 @@ SELECT [ID]
 
 
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 30/01/2024 11:35:30 am ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 02/02/2024 3:23:33 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
+
 
 CREATE VIEW [dbo].[vw_Document]
 AS
 SELECT [ID]
       ,[Path]
       ,[Filename]
-      ,[QRCode] = CONCAT(FORMAT([Timestamp], 'ddMMMyy'), ' ', ID)
+      ,[QRCode]
+	  ,QRCodeText = (SELECT QRCode FROM tbl_QRCode WHERE ID = D.QRCode)
       ,[ReceivedFrom]
       ,[Office]
 	  ,OfficeName = (SELECT Office FROM tbl_Office WHERE ID = d.Office)
@@ -391,6 +480,23 @@ SELECT [ID]
 
 
 
+
+
+
+GO
+/****** Object:  View [dbo].[vw_QRCode]    Script Date: 02/02/2024 3:23:33 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vw_QRCode]
+AS
+SELECT [ID]
+      ,[QRCode]
+      ,[Encoder]
+	  ,EncoderName = (SELECT CONCAT(fname, ' ', mn, ' ', lname) FROM tbl_User WHERE ID = q.Encoder)
+      ,[Timestamp]
+  FROM [tbl_QRCode] q
 GO
 USE [master]
 GO

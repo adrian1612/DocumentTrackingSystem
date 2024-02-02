@@ -169,6 +169,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OfficeController.cs" />
+    <Compile Include="Controllers\QRCodeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -184,6 +185,7 @@
     <Compile Include="Models\tbl_Categories.cs" />
     <Compile Include="Models\tbl_Document.cs" />
     <Compile Include="Models\tbl_Office.cs" />
+    <Compile Include="Models\tbl_QRCode.cs" />
     <Compile Include="Models\tbl_User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -897,6 +899,10 @@
     <Content Include="Views\Document\GenerateQR.cshtml" />
     <Content Include="Views\Document\GenerateQR_Partial.cshtml" />
     <Content Include="Views\Home\ClientInquiry.cshtml" />
+    <Content Include="Views\QRCode\Create.cshtml" />
+    <Content Include="Views\QRCode\Edit.cshtml" />
+    <Content Include="Views\QRCode\Field.cshtml" />
+    <Content Include="Views\QRCode\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

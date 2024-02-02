@@ -48,7 +48,7 @@
                                 <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
                             </td>
                             <td class="align-middle text-center">
-                                @Html.DisplayFor(modelItem => item.QRCode) <br />
+                                @Html.DisplayFor(modelItem => item.QRCodeText) <br />
                                 <button class="btn btn-sm btn-primary" onclick="initActivityModal(@item.ID)"><i class="fa fa-clipboard me-1"></i>Activity</button>
                             </td>
                             <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>

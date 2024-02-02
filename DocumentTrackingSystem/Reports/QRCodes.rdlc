@@ -232,18 +232,6 @@
           <DataField>ID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Path">
-          <DataField>Path</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Filename">
-          <DataField>Filename</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Upload">
-          <DataField>Upload</DataField>
-          <rd:TypeName>System.Web.HttpPostedFileBase</rd:TypeName>
-        </Field>
         <Field Name="QRCode">
           <DataField>QRCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -256,61 +244,24 @@
           <DataField>QRCode64</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ReceivedFrom">
-          <DataField>ReceivedFrom</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Office">
-          <DataField>Office</DataField>
+        <Field Name="Count">
+          <DataField>Count</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="OfficeName">
-          <DataField>OfficeName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Category">
-          <DataField>Category</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CategoryName">
-          <DataField>CategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Encoder">
           <DataField>Encoder</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="EncoderName">
-          <DataField>EncoderName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Date">
-          <DataField>Date</DataField>
-          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Timestamp">
           <DataField>Timestamp</DataField>
           <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="From">
-          <DataField>From</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="To">
-          <DataField>To</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DocumentTrackingSystem.Models</rd:DataSetName>
-        <rd:TableName>tbl_Document</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>Reports</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[DocumentTrackingSystem.Models.tbl_Document] Reports(DocumentTrackingSystem.Models.ReportType, DocumentTrackingSystem.Models.tbl_Document)</rd:ObjectDataSourceSelectMethodSignature>
-        <rd:ObjectDataSourceType>DocumentTrackingSystem.Models.tbl_Document, DocumentTrackingSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:TableName>tbl_QRCode</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>List</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceType>DocumentTrackingSystem.Models.tbl_QRCode, DocumentTrackingSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

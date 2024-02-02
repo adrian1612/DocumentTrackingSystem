@@ -28,14 +28,16 @@ namespace DocumentTrackingSystem.Models
 
         [Display(Name = "QR Code")]
         [DisplayFormat(NullDisplayText = "N/A", ConvertEmptyStringToNull = true)]
-        public String QRCode { get; set; }
+        public int QRCode { get; set; }
+
+        public string QRCodeText { get; set; }
 
         public byte[] QRCodeBytes
         {
             get
             {
                 var qrgen = new QRCodeGenerator();
-                var qrdata = qrgen.CreateQrCode(QRCode, QRCodeGenerator.ECCLevel.Q);
+                var qrdata = qrgen.CreateQrCode(QRCodeText, QRCodeGenerator.ECCLevel.Q);
                 var qrcode = new QRCode(qrdata);
                 var bmp = qrcode.GetGraphic(7);
                 var converter = new ImageConverter();
@@ -222,6 +224,7 @@ namespace DocumentTrackingSystem.Models
             {
                 p.Add("@Type", "Create");
                 p.Add("@Path", document);
+                p.Add("@QRCode", obj.QRCode);
                 p.Add("@Filename", obj.Upload.FileName);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);
@@ -242,6 +245,7 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@Type", "Update");
                 p.Add("@ID", obj.ID);
                 p.Add("@Path", document);
+                p.Add("@QRCode", obj.QRCode);
                 p.Add("@Filename", obj.Upload == null ? obj.Filename : obj.Upload.FileName);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);
