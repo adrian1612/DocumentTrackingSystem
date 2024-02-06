@@ -1,11 +1,11 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [dbDocTrack]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Database [dbDocTrack]    Script Date: 06/02/2024 10:02:53 am ******/
 CREATE DATABASE [dbDocTrack]
 GO
 USE [dbDocTrack]
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_Document_Proc]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +116,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_QRCode_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_QRCode_Proc]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -178,7 +178,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  StoredProcedure [dbo].[tbl_User_Proc]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +271,7 @@ END
 
 
 GO
-/****** Object:  Table [dbo].[tbl_Activity]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_Activity]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -294,7 +294,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_Categories]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -315,7 +315,7 @@ CREATE TABLE [dbo].[tbl_Categories](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Document]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_Document]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -343,7 +343,7 @@ CREATE TABLE [dbo].[tbl_Document](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_Office]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_Office]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -364,7 +364,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_QRCode]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_QRCode]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -385,7 +385,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_User]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  Table [dbo].[tbl_User]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -414,7 +414,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vw_Activity]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  View [dbo].[vw_Activity]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -430,7 +430,7 @@ SELECT [ID]
       ,[Timestamp]
   FROM [tbl_Activity] a
 GO
-/****** Object:  View [dbo].[vw_Categories]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  View [dbo].[vw_Categories]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -449,7 +449,7 @@ SELECT [ID]
 
 
 GO
-/****** Object:  View [dbo].[vw_Document]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  View [dbo].[vw_Document]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -484,7 +484,7 @@ SELECT [ID]
 
 
 GO
-/****** Object:  View [dbo].[vw_QRCode]    Script Date: 02/02/2024 3:23:33 pm ******/
+/****** Object:  View [dbo].[vw_QRCode]    Script Date: 06/02/2024 10:02:53 am ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
