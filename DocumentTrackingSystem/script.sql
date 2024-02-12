@@ -262,7 +262,15 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF @Type = 'Login'
 BEGIN
-	SELECT * FROM [tbl_User] WHERE HASHBYTES('MD5', Username) = HASHBYTES('MD5', @Username) AND HASHBYTES('MD5', [Password]) = HASHBYTES('MD5', @Password) AND Active = 1
+	IF (SELECT COUNT(*) FROM tbl_User) <= 0
+	BEGIN
+		INSERT INTO tbl_User ([Username],[Password],[Role],[Active],[fname],[mn],[lname],[gender],[email],[address]) VALUES ('admin', 'admin', 1, 1, '', '', '', 'Male', '', '')
+		SELECT TOP 1 * FROM tbl_User
+	END
+	ELSE
+	BEGIN
+		SELECT * FROM [tbl_User] WHERE HASHBYTES('MD5', Username) = HASHBYTES('MD5', @Username) AND HASHBYTES('MD5', [Password]) = HASHBYTES('MD5', @Password) AND Active = 1
+	END
 END
 END
 
