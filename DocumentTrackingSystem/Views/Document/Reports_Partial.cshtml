@@ -23,8 +23,11 @@
                     <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
                 </td>
                 <td class="align-middle text-center">
-                    <img src="@item.QRCode64" width="60" alt="QR Code" />
-                    @Html.DisplayFor(modelItem => item.QRCode)
+                    @if (!string.IsNullOrEmpty(item.QRCodeText))
+                    {
+                        <img src="@item.QRCode64" width="60" alt="QR Code" />
+                        @Html.DisplayFor(modelItem => item.QRCode)
+                    }
                 </td>
                 <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>
                 <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.OfficeName)</td>

@@ -36,13 +36,20 @@ namespace DocumentTrackingSystem.Models
         {
             get
             {
-                var qrgen = new QRCodeGenerator();
-                var qrdata = qrgen.CreateQrCode(QRCodeText, QRCodeGenerator.ECCLevel.Q);
-                var qrcode = new QRCode(qrdata);
-                var bmp = qrcode.GetGraphic(7);
-                var converter = new ImageConverter();
-                var result = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
-                return result;
+                if (string.IsNullOrEmpty(QRCodeText))
+                {
+                    return null;
+                }
+                else
+                {
+                    var qrgen = new QRCodeGenerator();
+                    var qrdata = qrgen.CreateQrCode(QRCodeText, QRCodeGenerator.ECCLevel.Q);
+                    var qrcode = new QRCode(qrdata);
+                    var bmp = qrcode.GetGraphic(7);
+                    var converter = new ImageConverter();
+                    var result = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+                    return result;
+                }
             }
         }
 
