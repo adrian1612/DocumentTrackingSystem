@@ -186,8 +186,8 @@ namespace DocumentTrackingSystem.Models
 
     public enum Role
     {
-        [Display(Name = "Super Admin")]
-        Super_Admin = 1,
+        //[Display(Name = "Super Admin")]
+        //Super_Admin = 1,
         [Display(Name = "Admin")]
         Admin = 2,
         [Display(Name = "User")]
