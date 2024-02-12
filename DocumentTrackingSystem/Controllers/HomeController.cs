@@ -71,6 +71,12 @@ namespace DocumentTrackingSystem.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult Starter()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult ClientInquiry(string QRCode = "")
         {
             var mod = new tbl_Document();

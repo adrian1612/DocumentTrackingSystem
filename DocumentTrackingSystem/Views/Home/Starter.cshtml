@@ -1,0 +1,25 @@
+@using DocumentTrackingSystem.Models
+@model tbl_User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+<div class="pt-4 pb-2 text-center">
+    <img src="@Url.Content("~/Content/Img/logo.png")" alt="Alternate Text" />
+    <h5 class="card-title text-center pb-0 fs-4">WELCOME</h5>
+    <p class="text-center small">Select your option below.</p>
+</div>
+
+<div class="col-12">
+    <p class="small mb-0"><a href="@Url.Action("Login", "Home")">Login</a></p>
+</div>
+<div class="col-12">
+    <p class="small mb-0"><a href="@Url.Action("ClientInquiry", "Home")">Document Inquiry</a></p>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
