@@ -45,7 +45,7 @@
                     {
                         <tr>
                             <td class="align-middle text-center">
-                                <a href="#" onclick="popupCenter({url : '@Url.Content(item.Path)', title: '@item.Filename', w: 800, h: 1200})">@Html.DisplayFor(modelItem => item.Filename)</a>
+                                <a href="#" @(!string.IsNullOrEmpty(item.Path) ? "onclick='popupCenter({url : `@Url.Content(item.Path)`, title: `@item.Filename`, w: 800, h: 1200})'" : "") >@Html.DisplayFor(modelItem => item.Filename)</a>
                             </td>
                             <td class="align-middle text-center">
                                 @Html.DisplayFor(modelItem => item.QRCodeText) <br />

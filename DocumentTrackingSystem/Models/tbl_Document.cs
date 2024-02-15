@@ -232,7 +232,8 @@ namespace DocumentTrackingSystem.Models
                 p.Add("@Type", "Create");
                 p.Add("@Path", document);
                 p.Add("@QRCode", obj.QRCode);
-                p.Add("@Filename", obj.Upload.FileName);
+                if(obj.Upload != null)
+                    p.Add("@Filename", obj.Upload.FileName);
                 p.Add("@ReceivedFrom", obj.ReceivedFrom);
                 p.Add("@Office", obj.Office);
                 p.Add("@Category", obj.Category);
