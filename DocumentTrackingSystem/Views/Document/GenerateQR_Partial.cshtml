@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Filename)</th>
-            <th>@Html.DisplayNameFor(model => model.QRCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Barcode)</th>
             <th>@Html.DisplayNameFor(model => model.ReceivedFrom)</th>
             <th>@Html.DisplayNameFor(model => model.Office)</th>
             <th>@Html.DisplayNameFor(model => model.Category)</th>
@@ -29,7 +29,7 @@
                     @if (!string.IsNullOrEmpty(item.QRCodeText))
                     {
                         <img src="@item.QRCode64" width="60" alt="QR Code" />
-                        @Html.DisplayFor(modelItem => item.QRCode)
+                        @Html.DisplayFor(modelItem => item.Barcode)
                     }
                 </td>
                 <td class="align-middle text-center">@Html.DisplayFor(modelItem => item.ReceivedFrom)</td>

@@ -1,4 +1,5 @@
 using DocumentTrackingSystem.Classes;
+using IronBarCode;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,30 @@ namespace DocumentTrackingSystem.Models
                     var result = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
                     return result;
                 }
+            }
+        }
+
+        public byte[] Barcode
+        {
+            get
+            {
+                var barcode = BarcodeWriter.CreateBarcode(QRCodeText, BarcodeWriterEncoding.Code128).Image;
+                var converter = new ImageConverter();
+                var result = (byte[])converter.ConvertTo(barcode, typeof(byte[]));
+                return result;
+            }
+        }
+
+        public string Barcode64
+        {
+            get
+            {
+                var output = "";
+                if (QRCodeBytes != null)
+                {
+                    output = $"data:image/bmp;base64,{Convert.ToBase64String(Barcode)}";
+                }
+                return output;
             }
         }
 

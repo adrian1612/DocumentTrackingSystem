@@ -1,7 +1,7 @@
 @using DocumentTrackingSystem.Models
 @model IEnumerable<tbl_QRCode>
 @{
-    ViewBag.Title = "QR Code";
+    ViewBag.Title = "Barcode";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -22,7 +22,7 @@
             <div class="col-md-4" aria-action="Add">
                 @using (Html.BeginForm("Create", "QRCode", FormMethod.Post, new { @target = "_blank" }))
                 {
-                    <label class="form-label">No. of QR Code</label>
+                    <label class="form-label">No. of Barcode</label>
                     <div class="input-group">
                         <input type="number" name="Count" min="10" class="form-control" value="10" required />
                         <input type="submit" class="btn btn-success" value="Generate" />
@@ -34,7 +34,7 @@
             <table id="data" class="table table-light table-hover table-striped" style="font-size:0.9rem;">
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.QRCode)</th>
+                        <th>@Html.DisplayNameFor(model => model.BarcodeBytes)</th>
                         <th>Image</th>
                         <th>Encoder</th>
                         <th>Date Generated</th>
@@ -46,7 +46,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.QRCode)</td>
-                            <td><img src="@item.QRCode64" alt="QR Image" width="60" /></td>
+                            <td><img src="@item.Barcode64" alt="Barcode Image" width="60" /></td>
                             <td>@Html.DisplayFor(modelItem => item.EncoderName)</td>
                             <td>@Html.FormatValue(item.Timestamp, "{0:MMM-dd-yyyy hh:mm tt}")</td>
                             <td class="text-end">

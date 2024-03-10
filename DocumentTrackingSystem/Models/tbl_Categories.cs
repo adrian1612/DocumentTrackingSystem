@@ -43,7 +43,7 @@ namespace DocumentTrackingSystem.Models
         public List<tbl_Categories> List()
         {
 
-            return s.Query<tbl_Categories>("SELECT * FROM [vw_Categories]")
+            return s.Query<tbl_Categories>("tbl_Categories_Proc", p => p.Add("@Type", "Search"), CommandType.StoredProcedure)
             .Select(r =>
             {
 
@@ -54,7 +54,7 @@ namespace DocumentTrackingSystem.Models
         public tbl_Categories Find(int ID)
         {
 
-            return s.Query<tbl_Categories>("SELECT * FROM [vw_Categories] where ID = @ID", p => p.Add("@ID", ID))
+            return s.Query<tbl_Categories>("tbl_Categories_Proc", p => { p.Add("@Type", "Find"); p.Add("@ID", ID); }, CommandType.StoredProcedure)
             .Select(r =>
             {
 
@@ -62,30 +62,40 @@ namespace DocumentTrackingSystem.Models
             }).SingleOrDefault();
         }
 
-        public int Create(tbl_Categories obj)
+        public bool Create(tbl_Categories obj)
         {
-            var ID = s.Insert("[tbl_Categories]", p =>
+            var result = false;
+            s.Query("tbl_Categories_Proc", p =>
             {
-                p.Add("Category", obj.Category);
-                p.Add("Color", obj.Color);
-            });
-            return ID;
+                p.Add("@Type", "Create");
+                p.Add("@Category", obj.Category);
+                p.Add("@Color", obj.Color);
+            }, CommandType.StoredProcedure).
+            ForEach(r => result = (bool)r[0]);
+            return result;
         }
 
-        public void Update(tbl_Categories obj)
+        public bool Update(tbl_Categories obj)
         {
-            s.Update("[tbl_Categories]", obj.ID, p =>
+            var result = false;
+            s.Query("tbl_Categories_Proc", p =>
             {
-                p.Add("Category", obj.Category);
-                p.Add("Color", obj.Color);
-            });
+                p.Add("@Type", "Update");
+                p.Add("@ID", obj.ID);
+                p.Add("@Category", obj.Category);
+                p.Add("@Color", obj.Color);
+            }, CommandType.StoredProcedure).
+            ForEach(r => result = (bool)r[0]);
+            return result;
         }
+
         public void Delete(tbl_Categories obj)
         {
-            s.Query("DELETE FROM [tbl_Categories] WHERE ID = @ID", p =>
+            s.Query("tbl_Categories_Proc", p =>
             {
+                p.Add("@Type", "Delete");
                 p.Add("@ID", obj.ID);
-            });
+            }, CommandType.StoredProcedure);
         }
     }
 

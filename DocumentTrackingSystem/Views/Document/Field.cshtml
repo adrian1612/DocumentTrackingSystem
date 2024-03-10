@@ -13,7 +13,7 @@
         <div class="col-sm-8">
             @Html.HiddenFor(model => model.Path)
             @Html.HiddenFor(model => model.Filename)
-            @Html.TextBoxFor(model => model.Upload, new { @class = "form-control form-control-sm", type = "file" })
+            @Html.TextBoxFor(model => model.Upload, new { @class = "form-control form-control-sm", type = "file", accept = "application/pdf" })
             @Html.ValidationMessageFor(model => model.Upload, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -69,15 +69,10 @@ namespace DocumentTrackingSystem.Models
 
         public ActionResult Delete(int ID)
         {
-            var item = mod.Find(ID);
-            return View(item);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(tbl_Categories m)
-        {
-            m.Delete(m);
+            mod.Delete(new tbl_Categories { ID = ID });
             return RedirectToAction("Index");
         }
+
+
     }
 }
